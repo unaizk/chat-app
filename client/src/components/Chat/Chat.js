@@ -10,6 +10,9 @@ const Chat = () => {
 
   const [name , setName] = useState('');
   const [room, setRoom] =useState('');
+  const [message, setMessage] = useState('')
+  const [messages, setMessages] = useState([])
+
   const ENDPOINT = 'localhost:5000'
 
   const location = useLocation(); // Use useLocation hook to get the location object
@@ -32,8 +35,31 @@ const Chat = () => {
     }
 
   },[ENDPOINT, location.search])
+
+
+  useEffect(()=>{
+    socket.on('message', (message) =>{
+      setMessages([...messages, message])
+    })
+  },[messages])
+
+  // function for sending message
+  const sendMessage = (event) =>{
+    event.preventDefault();
+
+    if(message){
+      socket.emit('sendMessage', message, () =>setMessage(''))
+    }
+  }
+
+  console.log(message, messages);
   return (
-    <div>Chat</div>
+    <div className='outerContainer'> 
+      <div className='container'>
+        <input value={message} onChange={(e) =>setMessage(e.target.value)} onKeyDown={event => event.key === 'Enter' ? sendMessage(event) : null}/>
+
+      </div>
+    </div>
   )
 }
 
