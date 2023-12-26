@@ -1,6 +1,12 @@
+
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import App from './App';
 
-ReactDOM.render(<App /> , document.querySelector('#root'))
+const root = document.querySelector('#root');
+
+// Use createRoot to render your application
+const rootElement = ReactDOM.createRoot(root);
+rootElement.render(<App />);
