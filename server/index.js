@@ -21,6 +21,10 @@ app.use(cors()); // Enable CORS for all routes
 io.on('connection', (socket) => {
   console.log('We have a new connection');
 
+  socket.on('join',({name,room}) =>{
+    console.log(name, room);
+  })
+
   socket.on('disconnect', () => {
     console.log('User has disconnected.');
   });
