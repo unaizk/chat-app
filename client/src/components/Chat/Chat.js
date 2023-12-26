@@ -20,7 +20,16 @@ const Chat = () => {
     setName(name);
     setRoom(room)
 
-    socket.emit('join',{name,room})
+    socket.emit('join',{name,room},() =>{
+     
+    })
+
+    // cleaning code or connection when unmounting component
+    return () =>{
+      socket.emit('disconnect')
+
+      socket.off()
+    }
 
   },[ENDPOINT, location.search])
   return (
